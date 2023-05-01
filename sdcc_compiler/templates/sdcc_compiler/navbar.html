@@ -1,0 +1,63 @@
+<div id="navbar">
+    <div id="burger">
+        <a href="#mobile-menu"><i class="fa-solid fa-bars"></i></a>
+    </div>
+    <div id="menu">
+        <div class="dropdown">
+            <button class="btn dropdown-toggle menu-item" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                Add
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">File</a></li>
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Folder</a>
+                </li>
+            </ul>
+        </div>
+        <button type="button" class="btn menu-item">Edit</button>
+        <button type="button" class="btn menu-item">Delete</button>
+        <button type="button" class="btn menu-item">Compile</button>
+    </div>
+    <div id="theme-selector">
+        <i class="fa-regular fa-sun" id="theme-icon"></i>
+        <span>Theme</span>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add new directory</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="dir_parent" class="form-label">Parent directory</label>
+                <select class="form-select" id="dir_parent" aria-label="Default select example">
+                    <option value="1">None</option>
+                    <option value="2">Dir1</option>
+                    <option value="3">Dir2</option>
+                </select>
+                <br>
+                <div class="mb-3">
+                    <label for="dir_name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="dir_name">
+                </div>
+                <div class="mb-3">
+                    <label for="dir_desc" class="form-label">Description</label>
+                    <textarea class="form-control" id="dir_desc" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mobile-menu">
+    <div class="menu-item">File</div>
+    <div class="menu-item">Edit</div>
+    <div class="menu-item">Options</div>
+</div>

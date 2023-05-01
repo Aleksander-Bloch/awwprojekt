@@ -1,0 +1,84 @@
+:root {
+    --bg-app: #bb86fc;
+    --bg-grid-primary: #121212;
+    --bg-grid-secondary: #1b1b1b;
+    --bg-grid-tertiary: #343434;
+    --bg-item: #9c71d1;
+    --font-primary: #ffffff;
+    --font-secondary: #ffffff;
+    --scroll-track: #5555;
+    --scroll-thumb: #555;
+}
+
+.light-theme {
+    --bg-app: #3d6aff;
+    --bg-grid-primary: #ffffff;
+    --bg-grid-secondary: #f3f2f2;
+    --bg-grid-tertiary: #e7e7e7;
+    --bg-item: #7179d1;
+    --font-primary: #000000;
+    --font-secondary: #000000;
+    --scroll-track: #9a9a9a55;
+    --scroll-thumb: #adadad;
+}
+
+/* Scrollbar settings for Firefox */
+html {
+    scrollbar-width: auto;
+    scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+}
+
+/* Scrollbar settings for Chrome */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--scroll-track);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-thumb);
+    border-radius: 1em;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--bg-item);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+i {
+    padding-right: 0.5em;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#app {
+    min-height: 100vh;
+    background-color: var(--bg-app);
+    display: grid;
+    grid-template-columns: 2fr 5fr 3fr;
+    grid-template-rows: 1fr 10fr auto 3fr;
+    row-gap: 2px;
+}
+
+@media only screen and (max-width: 600px) {
+    #app {
+        grid-template-columns: 100%;
+        /* Use auto instead of fr so that editors won't be resized */
+        grid-template-rows: auto auto 500px 300px auto auto;
+    }
+}

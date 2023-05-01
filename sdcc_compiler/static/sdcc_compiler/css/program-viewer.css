@@ -1,0 +1,11 @@
+#program-viewer {
+    background-color: var(--bg-grid-tertiary);
+    min-width: 400px;
+}
+
+@media only screen and (max-width: 600px) {
+    #program-viewer {
+        grid-column: auto;
+        grid-row: 3/4;
+    }
+}

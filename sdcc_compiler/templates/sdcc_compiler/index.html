@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDCC Compiler</title>
+
+    {#  jQuery  #}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    {#  Font awesome  #}
+    <script src="https://kit.fontawesome.com/f2de18ae85.js" crossorigin="anonymous"></script>
+
+    {#  Bootstrap  #}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"></script>
+
+    {#  Ace editor  #}
+    <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.15.3/src-min-noconflict/ace.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ace-builds@1.15.3/css/ace.min.css">
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'sdcc_compiler/css/app.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'sdcc_compiler/css/navbar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'sdcc_compiler/css/file-explorer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'sdcc_compiler/css/program-viewer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'sdcc_compiler/css/fragment-viewer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'sdcc_compiler/css/tab-area.css' %}">
+
+    <script src="{% static 'sdcc_compiler/js/script.js' %}" defer></script>
+
+</head>
+<body>
+
+<div id="app">
+    <div id="navbar-wrapper">
+        {% include "sdcc_compiler/navbar.html" %}
+    </div>
+
+    <div id="file-explorer">
+        {% include "sdcc_compiler/file_tree.html" %}
+    </div>
+
+    <div id="program-viewer"></div>
+
+    <div id="fragment-viewer"></div>
+
+    <div id="tab-bar">
+        <a href="#processor">
+            <div class="tab-item">Processor</div>
+        </a>
+        <a href="#options">
+            <div class="tab-item">Options</div>
+        </a>
+        <a href="#standard">
+            <div class="tab-item">Standard</div>
+        </a>
+        <a href="#format">
+            <div class="tab-item">Format</div>
+        </a>
+    </div>
+    <div id="tab-options">
+        <fieldset id="processor">
+            <legend>Select target processor:</legend>
+
+            <div>
+                <input type="radio" id="8051" name="processors" value="8051" checked>
+                <label>Intel 8051</label>
+            </div>
+
+            <div>
+                <input type="radio" id="z80" name="processors" value="z80">
+                <label>Zilog Z80</label>
+            </div>
+
+            <div>
+                <input type="radio" id="stm8" name="processors" value="stm8">
+                <label>STM8</label>
+            </div>
+        </fieldset>
+
+        <fieldset id="options">
+            <legend>Select processor's RAM:</legend>
+
+            <div>
+                <input type="radio" id="128b" name="ram" value="128b">
+                <label>128 Bytes</label>
+            </div>
+
+            <div>
+                <input type="radio" id="256b" name="ram" value="256b" checked>
+                <label>256 Bytes</label>
+            </div>
+
+            <div>
+                <input type="radio" id="1024b" name="ram" value="1024b">
+                <label>1024 Bytes</label>
+            </div>
+        </fieldset>
+
+
+        <fieldset id="standard">
+            <legend>Select C standard:</legend>
+
+            <div>
+                <input type="radio" id="c17" name="c_standards" value="c17">
+                <label>C17</label>
+            </div>
+
+            <div>
+                <input type="radio" id="c11" name="c_standards" value="c11">
+                <label>C11</label>
+            </div>
+
+            <div>
+                <input type="radio" id="c99" name="c_standards" value="c99" checked>
+                <label>C99</label>
+            </div>
+        </fieldset>
+
+        <fieldset id="format">
+            <legend>Select generated code format:</legend>
+
+            <div>
+                <input type="checkbox" id="stack" name="format" value="stack">
+                <label>External stack</label>
+            </div>
+
+            <div>
+                <input type="checkbox" id="profiling" name="format" value="profiling" checked>
+                <label>Generate profiling data</label>
+            </div>
+
+            <div>
+                <input type="checkbox" id="debug" name="format" value="debug" checked>
+                <label>Debug mode</label>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+</body>
+</html>

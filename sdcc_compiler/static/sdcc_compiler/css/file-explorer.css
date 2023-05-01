@@ -1,0 +1,46 @@
+#file-explorer {
+    background-color: var(--bg-grid-secondary);
+    grid-row: 2/5;
+    padding: 1em;
+}
+
+#root-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    color: var(--font-secondary);
+}
+
+/*li:hover {*/
+/*    color: var(--bg-item);*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.nested-document {*/
+/*    text-indent: -0.9rem;*/
+/*}*/
+
+/*.nested-document:target {*/
+/*    display: block;*/
+/*}*/
+
+.list-group-item {
+    border: none;
+    background-color: transparent;
+    color: var(--font-secondary);
+}
+
+.list-group-item:hover {
+    color: var(--bg-item);
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+    #file-explorer {
+        grid-column: auto;
+        grid-row: 2/3;
+    }
+}

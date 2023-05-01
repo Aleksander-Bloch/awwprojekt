@@ -1,0 +1,10 @@
+#fragment-viewer {
+    background-color: var(--bg-grid-tertiary);
+}
+
+@media only screen and (max-width: 600px) {
+    #fragment-viewer {
+        grid-column: auto;
+        grid-row: 4/5;
+    }
+}

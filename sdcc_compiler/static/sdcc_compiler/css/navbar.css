@@ -1,0 +1,80 @@
+#navbar-wrapper {
+    grid-column: 1/4;
+}
+
+#navbar {
+    background-color: var(--bg-grid-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 3em;
+    padding-right: 3em;
+}
+
+#menu {
+    background-color: var(--bg-grid-primary);
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 6em;
+}
+
+.menu-item {
+    color: var(--font-primary);
+    padding: 0.5em;
+    margin: 0.3em;
+    border-radius: 1em;
+}
+
+.menu-item:hover {
+    background-color: var(--bg-item);
+    font-weight: bold;
+}
+
+#theme-selector {
+    display: flex;
+    color: var(--font-primary);
+    align-items: center;
+    justify-content: center;
+}
+
+#theme-icon {
+    /*padding-bottom: 0.2em;*/
+}
+
+#theme-icon:hover {
+    cursor: pointer;
+}
+
+#burger {
+    color: var(--font-primary);
+    display: none;
+}
+
+#mobile-menu {
+    background-color: var(--bg-grid-primary);
+    text-align: center;
+    display: none;
+}
+
+
+@media only screen and (max-width: 600px) {
+    #navbar-wrapper {
+        grid-column: auto;
+        grid-row: 1/2;
+    }
+
+    /* Disappears when media condition is not fulfilled. */
+    /* Even if it is still the target. */
+    #mobile-menu:target {
+        display: block;
+    }
+
+    #menu {
+        display: none;
+    }
+
+    #burger {
+        display: block
+    }
+}

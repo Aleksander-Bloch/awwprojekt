@@ -1,27 +1,21 @@
 {% for node in file_tree %}
     <ul class="list-group {% if not node.isRoot %}collapse{% endif %}">
         <li class="list-group-item">
-            <a class="toggle-collapse" href="#"><i class="far fa-folder"></i>{{ node.name }}</a>
+            <span class="toggle-collapse dir-item" data-id="{{ node.id }}">
+                <i class="far fa-folder"></i>{{ node.name }}
+            </span>
             {% if node.children %}
                 {% include "sdcc_compiler/file_tree.html" with file_tree=node.children %}
             {% endif %}
             {% for file in node.files %}
                 <ul class="list-group collapse">
-                    <li class="list-group-item"><a href="#"><i
-                            class="far fa-file"></i>{{ file }}</a>
+                    <li class="list-group-item">
+                        <span class="file-item" data-id="{{ file.id }}">
+                            <i class="far fa-file"></i>{{ file.name }}
+                        </span>
                     </li>
                 </ul>
             {% endfor %}
         </li>
     </ul>
 {% endfor %}
-
-<script>
-    $(document).ready(function () {
-        $('.toggle-collapse').click(function () {
-            $(this).find('i').toggleClass('fa-folder fa-folder-open');
-            $(this).parent().children('ul').collapse('toggle');
-            return false;
-        });
-    });
-</script>

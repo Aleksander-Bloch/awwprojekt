@@ -10,7 +10,8 @@
             </button>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">File</a></li>
-                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Folder</a>
+                <li><a class="dropdown-item" id="add-dir-modal-trigger" href="#" data-bs-toggle="modal"
+                       data-bs-target="#exampleModal">Directory</a>
                 </li>
             </ul>
         </div>
@@ -32,25 +33,16 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <label for="dir_parent" class="form-label">Parent directory</label>
-                <select class="form-select" id="dir_parent" aria-label="Default select example">
-                    <option value="1">None</option>
-                    <option value="2">Dir1</option>
-                    <option value="3">Dir2</option>
-                </select>
-                <br>
-                <div class="mb-3">
-                    <label for="dir_name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="dir_name">
-                </div>
-                <div class="mb-3">
-                    <label for="dir_desc" class="form-label">Description</label>
-                    <textarea class="form-control" id="dir_desc" rows="3"></textarea>
-                </div>
+                <div class="mb-3" id="parent-dir-info"></div>
+                <form id="add-dir-form" method="post" action="{% url 'add_directory' %}">
+                    {% csrf_token %}
+                    {{ add_dir_form.as_p }}
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="submit" form="add-dir-form" class="btn btn-success" id="add-dir-submit-btn">Save changes
+                </button>
             </div>
         </div>
     </div>

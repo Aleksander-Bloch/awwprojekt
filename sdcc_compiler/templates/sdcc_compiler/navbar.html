@@ -9,9 +9,10 @@
                 Add
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">File</a></li>
+                <li><a class="dropdown-item" id="add-file-modal-trigger" href="#" data-bs-toggle="modal" data-bs-target="#addFileModal">File</a>
+                </li>
                 <li><a class="dropdown-item" id="add-dir-modal-trigger" href="#" data-bs-toggle="modal"
-                       data-bs-target="#exampleModal">Directory</a>
+                       data-bs-target="#addDirModal">Directory</a>
                 </li>
             </ul>
         </div>
@@ -25,28 +26,9 @@
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Add new directory</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3" id="parent-dir-info"></div>
-                <form id="add-dir-form" method="post" action="{% url 'add_directory' %}">
-                    {% csrf_token %}
-                    {{ add_dir_form.as_p }}
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" form="add-dir-form" class="btn btn-success" id="add-dir-submit-btn">Save changes
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+{% include "sdcc_compiler/add_dir_modal.html" %}
+
+{% include "sdcc_compiler/add_file_modal.html" %}
 
 <div id="mobile-menu">
     <div class="menu-item">File</div>

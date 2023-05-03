@@ -33,12 +33,13 @@ li {
     color: var(--font-secondary);
 }
 
-.list-group-item:hover {
-    font-weight: bold;
-}
-
 .dir-item, .file-item {
     cursor: pointer;
+}
+
+.dir-item:hover, .file-item:hover {
+    color: var(--bg-item);
+    font-weight: bold;
 }
 
 .selected-item {

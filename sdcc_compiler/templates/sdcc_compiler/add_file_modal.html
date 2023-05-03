@@ -1,0 +1,22 @@
+<div class="modal fade" id="addFileModal" tabindex="-1" aria-labelledby="addFileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addFileModalLabel">Add new file</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3" id="file-dir-info"></div>
+                <form id="add-file-form" method="post" action="{% url 'add_file' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ add_file_form.as_p }}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="add-file-form" class="btn btn-success" id="add-file-submit-btn">Save changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

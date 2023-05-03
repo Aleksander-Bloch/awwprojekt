@@ -1,0 +1,9 @@
+{% for file in root_files %}
+    <ul class="list-group">
+        <li class="list-group-item">
+            <span class="file-item" data-id="{{ file.id }}">
+                <i class="far fa-file"></i>{{ file.name }}
+            </span>
+        </li>
+    </ul>
+{% endfor %}

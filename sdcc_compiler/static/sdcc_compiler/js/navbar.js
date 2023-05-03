@@ -19,23 +19,35 @@ items.forEach((item) => {
     });
 });
 
+function prepareModal(info, input, submit, target_str) {
+    submit.disabled = false;
+    info.classList.remove('text-danger');
+    if (selectedItem === null) {
+        info.innerText = `Creating root ${target_str}.`;
+        input.value = null;
+    } else if (selectedItem.classList.contains('dir-item')) {
+        info.innerText = `Creating ${target_str} inside ${selectedItemName}.`;
+        input.value = selectedItemId;
+    } else {
+        info.innerText = `Please select a parent directory by clicking on a directory item.`;
+        submit.disabled = true;
+        info.classList.add('text-danger');
+    }
+}
+
 const addDirModalTrigger = document.querySelector('#add-dir-modal-trigger');
 const parentDirInfo = document.querySelector('#parent-dir-info');
 const parentInput = document.querySelector('#add-dir-form #id_parent');
 const addDirSubmitBtn = document.querySelector('#add-dir-submit-btn');
 addDirModalTrigger.addEventListener('click', () => {
-    addDirSubmitBtn.disabled = false;
-    parentDirInfo.classList.remove('text-danger');
-    if (selectedItem === null) {
-        parentDirInfo.innerText = "Creating root directory.";
-        parentInput.value = null;
-    } else if (selectedItem.classList.contains('dir-item')) {
-        parentDirInfo.innerText = `Creating directory inside ${selectedItemName}.`;
-        parentInput.value = selectedItemId;
-        console.log(parentInput.value);
-    } else {
-        parentDirInfo.innerText = `Please select a parent directory by clicking on a directory item.`;
-        addDirSubmitBtn.disabled = true;
-        parentDirInfo.classList.add('text-danger');
-    }
+    prepareModal(parentDirInfo, parentInput, addDirSubmitBtn, 'directory');
+});
+
+const addFileModalTrigger = document.querySelector('#add-file-modal-trigger');
+const fileDirInfo = document.querySelector('#file-dir-info');
+const fileDirInput = document.querySelector('#add-file-form #id_directory');
+const addFileSubmitBtn = document.querySelector('#add-file-submit-btn');
+
+addFileModalTrigger.addEventListener('click', () => {
+    prepareModal(fileDirInfo, fileDirInput, addFileSubmitBtn, 'file');
 });

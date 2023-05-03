@@ -3,7 +3,8 @@ from django.db import models
 
 class File(models.Model):
     name = models.CharField(max_length=50)
-    directory = models.ForeignKey('Directory', related_name='files', on_delete=models.CASCADE)
+    directory = models.ForeignKey('Directory', null=True, blank=True, related_name='files', on_delete=models.CASCADE)
+    file = models.FileField(upload_to='files/', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -16,8 +17,6 @@ class Directory(models.Model):
 
     def get_tree(self):
         tree = {'name': self.name, 'id': self.id}
-        if not self.parent:
-            tree['isRoot'] = True
         if self.children.exists():
             tree['children'] = [child.get_tree() for child in self.children.all()]
         if self.files.exists():

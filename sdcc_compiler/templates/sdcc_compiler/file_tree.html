@@ -1,21 +1,25 @@
 {% for node in file_tree %}
-    <ul class="list-group">
-        <li class="list-group-item">
-            <span class="dir-item" data-id="{{ node.id }}">
-                <i class="far fa-folder"></i>{{ node.name }}
-            </span>
-            {% if node.children %}
-                {% include "sdcc_compiler/file_tree.html" with file_tree=node.children %}
-            {% endif %}
-            {% for file in node.files %}
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <span class="file-item" data-id="{{ file.id }}">
-                            <i class="far fa-file"></i>{{ file.name }}
-                        </span>
-                    </li>
-                </ul>
-            {% endfor %}
-        </li>
-    </ul>
+    {% if node.is_accessible %}
+        <ul class="list-group">
+            <li class="list-group-item">
+                <span class="dir-item" data-id="{{ node.id }}">
+                    <i class="far fa-folder"></i>{{ node.name }}
+                </span>
+                {% if node.children %}
+                    {% include "sdcc_compiler/file_tree.html" with file_tree=node.children %}
+                {% endif %}
+                {% for file in node.files %}
+                    {% if file.is_accessible %}
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span class="file-item" data-id="{{ file.id }}">
+                                    <i class="far fa-file"></i>{{ file.name }}
+                                </span>
+                            </li>
+                        </ul>
+                    {% endif %}
+                {% endfor %}
+            </li>
+        </ul>
+    {% endif %}
 {% endfor %}

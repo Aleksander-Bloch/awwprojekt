@@ -13,7 +13,7 @@ class IndexView(TemplateView):
         root_directories = Directory.objects.filter(parent__isnull=True)
         context['file_tree'] = [root.get_tree() for root in root_directories]
         root_files = File.objects.filter(directory__isnull=True)
-        context['root_files'] = [{'name': f.name, 'id': f.id} for f in root_files]
+        context['root_files'] = [{'name': f.name, 'id': f.id, 'is_accessible': f.is_accessible} for f in root_files]
         add_dir_form = AddDirectoryForm()
         context['add_dir_form'] = add_dir_form
         add_file_form = AddFileForm()
@@ -58,4 +58,18 @@ def view_file(request, file_id):
         file_content = f.read()
 
     request.session['file_content'] = file_content
+    return redirect('index')
+
+
+def delete_directory(request, directory_id):
+    directory_to_delete = Directory.objects.get(pk=directory_id)
+    directory_to_delete.is_accessible = False
+    directory_to_delete.save()
+    return redirect('index')
+
+
+def delete_file(request, file_id):
+    file_to_delete = File.objects.get(pk=file_id)
+    file_to_delete.is_accessible = False
+    file_to_delete.save()
     return redirect('index')

@@ -13,11 +13,12 @@ class Directory(models.Model):
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE)
 
     def get_tree(self):
-        tree = {'name': self.name, 'id': self.id}
+        tree = {'name': self.name, 'id': self.id, 'is_accessible': self.is_accessible}
         if self.children.exists():
             tree['children'] = [child.get_tree() for child in self.children.all()]
         if self.files.exists():
-            tree['files'] = [{'name': f.name, 'id': f.id} for f in self.files.all()]
+            tree['files'] = [{'name': f.name, 'id': f.id, 'is_accessible': self.is_accessible}
+                             for f in self.files.all()]
         return tree
 
     def __str__(self):

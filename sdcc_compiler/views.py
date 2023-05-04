@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
 from .forms import AddDirectoryForm, AddFileForm
@@ -18,6 +18,7 @@ class IndexView(TemplateView):
         context['add_dir_form'] = add_dir_form
         add_file_form = AddFileForm()
         context['add_file_form'] = add_file_form
+        context['file_content'] = self.request.session.get('file_content', None)
         return context
 
 
@@ -34,9 +35,7 @@ def add_directory(request):
                 parent = None
             new_directory = Directory(parent=parent, name=name, description=description)
             new_directory.save()
-            return redirect('index')
-    form = AddDirectoryForm()
-    return render(request, 'sdcc_compiler/index.html', {'add_dir_form': form})
+    return redirect('index')
 
 
 def add_file(request):
@@ -52,9 +51,7 @@ def add_file(request):
                 directory = None
             new_file = File(directory=directory, name=name, file=uploaded_file)
             new_file.save()
-            return redirect('index')
-    form = AddFileForm()
-    return render(request, 'sdcc_compiler/index.html', {'add_file_form': form})
+    return redirect('index')
 
 
 def view_file(request, file_id):
@@ -62,5 +59,5 @@ def view_file(request, file_id):
     with open(file_to_view.file.path, 'r') as f:
         file_content = f.read()
 
-    context = {'file_content': file_content}
-    return render(request, 'sdcc_compiler/index.html', context)
+    request.session['file_content'] = file_content
+    return redirect('index')

@@ -1,18 +1,15 @@
 from django.db import models
-
-
-class File(models.Model):
-    name = models.CharField(max_length=50)
-    directory = models.ForeignKey('Directory', null=True, blank=True, related_name='files', on_delete=models.CASCADE)
-    file = models.FileField(upload_to='files/', null=True, blank=True)
-
-    def __str__(self):
-        return self.name
+from django.utils.timezone import now
 
 
 class Directory(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(null=True, blank=True)
+    creation_date = models.DateTimeField(default=now)
+    owner = models.ForeignKey('User', null=True, blank=True, related_name='directories', on_delete=models.CASCADE)
+    is_accessible = models.BooleanField(default=True)
+    access_change = models.DateTimeField(default=now)
+    last_modification = models.DateTimeField(default=now)
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE)
 
     def get_tree(self):
@@ -22,6 +19,30 @@ class Directory(models.Model):
         if self.files.exists():
             tree['files'] = [{'name': f.name, 'id': f.id} for f in self.files.all()]
         return tree
+
+    def __str__(self):
+        return self.name
+
+
+class File(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.TextField(null=True, blank=True)
+    creation_date = models.DateTimeField(default=now)
+    owner = models.ForeignKey('User', null=True, blank=True, related_name='files', on_delete=models.CASCADE)
+    is_accessible = models.BooleanField(default=True)
+    access_change = models.DateTimeField(default=now)
+    last_modification = models.DateTimeField(default=now)
+    directory = models.ForeignKey('Directory', null=True, blank=True, related_name='files', on_delete=models.CASCADE)
+    file = models.FileField(upload_to='files/')
+
+    def __str__(self):
+        return self.name
+
+
+class User(models.Model):
+    name = models.CharField(max_length=50)
+    login = models.CharField(max_length=50)
+    password = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name

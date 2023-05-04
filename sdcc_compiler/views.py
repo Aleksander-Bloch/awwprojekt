@@ -18,7 +18,7 @@ class IndexView(TemplateView):
         context['add_dir_form'] = add_dir_form
         add_file_form = AddFileForm()
         context['add_file_form'] = add_file_form
-        context['file_content'] = self.request.session.get('file_content', None)
+        context['file_content'] = self.request.session.get('file_content', '')
         return context
 
 
@@ -26,14 +26,13 @@ def add_directory(request):
     if request.method == 'POST':
         form = AddDirectoryForm(request.POST)
         if form.is_valid():
+            new_directory = form.save(commit=False)
             parent_id = form.cleaned_data['parent']
-            name = form.cleaned_data['name']
-            description = form.cleaned_data['description']
             try:
                 parent = Directory.objects.get(id=parent_id)
             except Directory.DoesNotExist:
                 parent = None
-            new_directory = Directory(parent=parent, name=name, description=description)
+            new_directory.parent = parent
             new_directory.save()
     return redirect('index')
 
@@ -42,14 +41,13 @@ def add_file(request):
     if request.method == 'POST':
         form = AddFileForm(request.POST, request.FILES)
         if form.is_valid():
-            name = form.cleaned_data['name']
-            uploaded_file = form.cleaned_data['file']
+            new_file = form.save(commit=False)
             directory_id = form.cleaned_data['directory']
             try:
                 directory = Directory.objects.get(id=directory_id)
             except Directory.DoesNotExist:
                 directory = None
-            new_file = File(directory=directory, name=name, file=uploaded_file)
+            new_file.directory = directory
             new_file.save()
     return redirect('index')
 

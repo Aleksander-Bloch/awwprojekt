@@ -17,7 +17,9 @@
                 </li>
             </ul>
         </div>
-        <button type="button" class="btn menu-item">Edit</button>
+        <button type="button" class="btn menu-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSections"
+                aria-controls="offcanvasSections">Sections
+        </button>
         <button type="button" id="delete-modal-trigger" class="btn menu-item" data-bs-toggle="modal"
                 data-bs-target="#deleteModal">Delete
         </button>
@@ -34,6 +36,8 @@
 {% include "sdcc_compiler/add_file_modal.html" %}
 
 {% include "sdcc_compiler/delete_modal.html" %}
+
+{% include "sdcc_compiler/sections_offcanvas.html" %}
 
 <div id="mobile-menu">
     <div class="menu-item">File</div>

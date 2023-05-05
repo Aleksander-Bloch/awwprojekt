@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 
 from .forms import AddDirectoryForm, AddFileForm
 from .models import Directory, File
+import sdcc_compiler.parsing.cfile_sections as cfile_sections
 
 
 class IndexView(TemplateView):
@@ -19,6 +20,7 @@ class IndexView(TemplateView):
         add_file_form = AddFileForm()
         context['add_file_form'] = add_file_form
         context['file_content'] = self.request.session.get('file_content', '')
+        context['sections'] = self.request.session.get('sections', [])
         return context
 
 
@@ -49,6 +51,7 @@ def add_file(request):
                 directory = None
             new_file.directory = directory
             new_file.save()
+            cfile_sections.create_sections(new_file)
     return redirect('index')
 
 
@@ -58,6 +61,12 @@ def view_file(request, file_id):
         file_content = f.read()
 
     request.session['file_content'] = file_content
+    sections = file_to_view.sections.all()
+    section_dicts = [
+        {'type': s.type, 'start': s.start_line, 'end': s.end_line, 'status': s.status}
+        for s in sections
+    ]
+    request.session['sections'] = section_dicts
     return redirect('index')
 
 

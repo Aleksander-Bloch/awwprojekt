@@ -1,0 +1,107 @@
+<div id="tab-bar">
+    <a href="#standard">
+        <div class="tab-item">Standard</div>
+    </a>
+    <a href="#optimizations">
+        <div class="tab-item">Optimizations</div>
+    </a>
+    <a href="#processor">
+        <div class="tab-item">Processor</div>
+    </a>
+    <a href="#dependent">
+        <div class="tab-item">Dependent</div>
+    </a>
+</div>
+<div id="tab-options">
+    <form id="compilation-form" method="post" action="{% url 'compile_file' %}">
+        {% csrf_token %}
+        <fieldset id="standard">
+            <legend>Select C standard:</legend>
+            <select name="standard_choice" class="form-select" aria-label="c standard selection">
+                <option value="--std-sdcc89">C89</option>
+                <option value="--std-sdcc99">C99</option>
+                <option value="--std-sdcc11" selected>C11</option>
+            </select>
+        </fieldset>
+
+        <fieldset id="optimizations">
+            <legend>Select optimization options:</legend>
+            <div class="form-check">
+                <input name="optimization_choice" class="form-check-input" type="checkbox" value="--nooverlay"
+                       id="nooverlay-check">
+                <label class="form-check-label" for="nooverlay-check">
+                    Disable overlaying leaf function auto variables
+                </label>
+            </div>
+            <div class="form-check">
+                <input name="optimization_choice" class="form-check-input" type="checkbox" value="--opt-code-speed"
+                       id="speed-check" checked>
+                <label class="form-check-label" for="speed-check">
+                    Optimize for code speed rather than size
+                </label>
+            </div>
+            <div class="form-check">
+                <input name="optimization_choice" class="form-check-input" type="checkbox"
+                       value="--allow-unsafe-read"
+                       id="read-check">
+                <label class="form-check-label" for="read-check">
+                    Allow optimizations to read any memory location anytime
+                </label>
+            </div>
+        </fieldset>
+
+        <fieldset id="processor">
+            <legend>Select processor architecture:</legend>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" value="-mmcs51" name="processor_choice" id="mcs51"
+                       checked>
+                <label class="form-check-label" for="mcs51">
+                    MCS51
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" value="-mz80" name="processor_choice" id="z80">
+                <label class="form-check-label" for="z80">
+                    Z80
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" value="-mstm8" name="processor_choice" id="stm8">
+                <label class="form-check-label" for="stm8">
+                    STM8
+                </label>
+            </div>
+        </fieldset>
+
+        <fieldset id="dependent">
+            <legend>MCS51 Options:</legend>
+            <select name="mcs51_dependent_choice" id="mcs51-options" class="form-select"
+                    aria-label="dependent options"
+                    style="display: block">
+                <option value="--model-small" selected>small model programs - internal data space is used</option>
+                <option value="--model-medium">medium model programs - external paged data space is used</option>
+                <option value="--model-large">large model programs - external data space is used</option>
+                <option value="--model-huge">huge model programs - functions are banked, data in external space
+                </option>
+            </select>
+            <select name="z80_dependent_choice" id="z80-options" class="form-select" aria-label="dependent options"
+                    style="display: none">
+                <option value="--callee-saves-bc" selected>Force a called function to always save BC</option>
+                <option value="--oldralloc">Use old register allocator</option>
+                <option value="--fno-omit-frame-pointer">Do not omit frame pointer</option>
+                <option value="--emit-externs">Emit externs list in generated asm</option>
+            </select>
+            <select name="stm8_dependent_choice" id="stm8-options" class="form-select"
+                    aria-label="dependent options"
+                    style="display: none">
+                <option value="--model-medium" selected>medium model programs - 16-bit address space for both data
+                    and
+                    code
+                </option>
+                <option value="--model-large">large model programs - 16-bit address space for data, 24-bit for code
+                </option>
+                <option value="--out-fmt-elf">Output executable in ELF format</option>
+            </select>
+        </fieldset>
+    </form>
+</div>

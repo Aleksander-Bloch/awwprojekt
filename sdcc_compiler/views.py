@@ -1,3 +1,5 @@
+import subprocess
+
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
@@ -21,6 +23,7 @@ class IndexView(TemplateView):
         context['add_file_form'] = add_file_form
         context['file_content'] = self.request.session.get('file_content', '')
         context['sections'] = self.request.session.get('sections', [])
+        context['editor_file_id'] = self.request.session.get('editor_file_id', None)
         return context
 
 
@@ -67,6 +70,7 @@ def view_file(request, file_id):
         for s in sections
     ]
     request.session['sections'] = section_dicts
+    request.session['editor_file_id'] = file_id
     return redirect('index')
 
 
@@ -81,4 +85,23 @@ def delete_file(request, file_id):
     file_to_delete = File.objects.get(pk=file_id)
     file_to_delete.is_accessible = False
     file_to_delete.save()
+    return redirect('index')
+
+
+def compile_file(request):
+    if not request.session.get('editor_file_id', None):
+        return redirect('index')
+    standard = request.POST.get('standard_choice')
+    optimizations = request.POST.getlist('optimization_choice', [])
+    processor = request.POST.get('processor_choice')
+    if processor == '-mmcs51':
+        dependent = request.POST.get('mcs51_dependent_choice')
+    elif processor == '-mz80':
+        dependent = request.POST.get('z80_dependent_choice')
+    else:
+        dependent = request.POST.get('stm8_dependent_choice')
+    file_to_compile = File.objects.get(pk=request.session['editor_file_id'])
+    subprocess.run(['sdcc', '-o', 'media/compiled/', '-S', standard, *optimizations, processor, dependent,
+                    file_to_compile.file.path])
+
     return redirect('index')

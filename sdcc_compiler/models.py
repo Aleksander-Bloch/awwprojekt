@@ -44,7 +44,7 @@ class File(models.Model):
     access_change = models.DateTimeField(default=now)
     last_modification = models.DateTimeField(default=now)
     directory = models.ForeignKey('Directory', null=True, blank=True, related_name='files', on_delete=models.CASCADE)
-    file = models.FileField(upload_to='files/')
+    file = models.FileField(upload_to='uploads/')
 
     def __str__(self):
         return self.name

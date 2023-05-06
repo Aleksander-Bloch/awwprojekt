@@ -30,6 +30,7 @@
 
     <script src="{% static 'sdcc_compiler/js/navbar.js' %}" defer></script>
     <script src="{% static 'sdcc_compiler/js/file_explorer.js' %}" defer></script>
+    <script src="{% static 'sdcc_compiler/js/dependent-options.js' %}" defer></script>
 
 </head>
 <body>
@@ -48,98 +49,7 @@
 
     <div id="fragment-viewer"></div>
 
-    <div id="tab-bar">
-        <a href="#processor">
-            <div class="tab-item">Processor</div>
-        </a>
-        <a href="#options">
-            <div class="tab-item">Options</div>
-        </a>
-        <a href="#standard">
-            <div class="tab-item">Standard</div>
-        </a>
-        <a href="#format">
-            <div class="tab-item">Format</div>
-        </a>
-    </div>
-    <div id="tab-options">
-        <fieldset id="processor">
-            <legend>Select target processor:</legend>
-
-            <div>
-                <input type="radio" id="8051" name="processors" value="8051" checked>
-                <label>Intel 8051</label>
-            </div>
-
-            <div>
-                <input type="radio" id="z80" name="processors" value="z80">
-                <label>Zilog Z80</label>
-            </div>
-
-            <div>
-                <input type="radio" id="stm8" name="processors" value="stm8">
-                <label>STM8</label>
-            </div>
-        </fieldset>
-
-        <fieldset id="options">
-            <legend>Select processor's RAM:</legend>
-
-            <div>
-                <input type="radio" id="128b" name="ram" value="128b">
-                <label>128 Bytes</label>
-            </div>
-
-            <div>
-                <input type="radio" id="256b" name="ram" value="256b" checked>
-                <label>256 Bytes</label>
-            </div>
-
-            <div>
-                <input type="radio" id="1024b" name="ram" value="1024b">
-                <label>1024 Bytes</label>
-            </div>
-        </fieldset>
-
-
-        <fieldset id="standard">
-            <legend>Select C standard:</legend>
-
-            <div>
-                <input type="radio" id="c17" name="c_standards" value="c17">
-                <label>C17</label>
-            </div>
-
-            <div>
-                <input type="radio" id="c11" name="c_standards" value="c11">
-                <label>C11</label>
-            </div>
-
-            <div>
-                <input type="radio" id="c99" name="c_standards" value="c99" checked>
-                <label>C99</label>
-            </div>
-        </fieldset>
-
-        <fieldset id="format">
-            <legend>Select generated code format:</legend>
-
-            <div>
-                <input type="checkbox" id="stack" name="format" value="stack">
-                <label>External stack</label>
-            </div>
-
-            <div>
-                <input type="checkbox" id="profiling" name="format" value="profiling" checked>
-                <label>Generate profiling data</label>
-            </div>
-
-            <div>
-                <input type="checkbox" id="debug" name="format" value="debug" checked>
-                <label>Debug mode</label>
-            </div>
-        </fieldset>
-    </div>
+    {% include "sdcc_compiler/tab_area.html" %}
 </div>
 <script>
     const fileContent = `{{ file_content | safe }}`;
@@ -192,10 +102,10 @@ void setHex(Bitset b, unsigned char hex,
         return aceEditor;
     })();
 
-    var theme_icon = document.getElementById("theme-icon");
-    var current_theme = localStorage.getItem("theme");
+    const theme_icon = document.getElementById("theme-icon");
+    const current_theme = localStorage.getItem("theme");
 
-    if (current_theme == "light") {
+    if (current_theme === "light") {
         theme_icon.className = "fa-regular fa-moon";
         document.body.classList.toggle("light-theme");
         programViewer.setTheme("ace/theme/light");

@@ -1,5 +1,5 @@
 def make_section_dict(in_header, current_section_lines):
-    return {"is_header": in_header, "section": "".join(current_section_lines)}
+    return {"is_header": in_header, "content": "".join(current_section_lines)}
 
 
 def create_sections(asm_file):

@@ -1,5 +1,17 @@
 #fragment-viewer {
     background-color: var(--bg-grid-tertiary);
+    color: var(--font-secondary);
+    min-width: 200px;
+    overflow: auto;
+    height: 100%;
+}
+
+.asm-header:hover {
+    background-color: var(--asm-header);
+}
+
+.asm-body:hover {
+    background-color: var(--asm-body);
 }
 
 @media only screen and (max-width: 600px) {

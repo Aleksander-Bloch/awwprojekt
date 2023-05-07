@@ -1,11 +1,13 @@
 import subprocess
 
+from django.http import FileResponse
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
+import sdcc_compiler.parsing.asm_sections as asm_sections
+import sdcc_compiler.parsing.cfile_sections as cfile_sections
 from .forms import AddDirectoryForm, AddFileForm
 from .models import Directory, File
-import sdcc_compiler.parsing.cfile_sections as cfile_sections
 
 
 class IndexView(TemplateView):
@@ -24,6 +26,7 @@ class IndexView(TemplateView):
         context['file_content'] = self.request.session.get('file_content', '')
         context['sections'] = self.request.session.get('sections', [])
         context['editor_file_id'] = self.request.session.get('editor_file_id', None)
+        context['asm_sections'] = self.request.session.get('asm_sections', [])
         return context
 
 
@@ -101,7 +104,19 @@ def compile_file(request):
     else:
         dependent = request.POST.get('stm8_dependent_choice')
     file_to_compile = File.objects.get(pk=request.session['editor_file_id'])
-    subprocess.run(['sdcc', '-o', 'media/compiled/', '-S', standard, *optimizations, processor, dependent,
+    output_asm_path = 'media/compiled/output.asm'
+    subprocess.run(['sdcc', '-o', output_asm_path, '-S', standard, *optimizations, processor, dependent,
                     file_to_compile.file.path])
+    asm_section_dicts = asm_sections.create_sections(output_asm_path)
+    request.session['asm_sections'] = asm_section_dicts
 
     return redirect('index')
+
+
+def download_asm(request):
+    if not request.session.get('editor_file_id', None):
+        return redirect('index')
+    response = FileResponse(open('media/compiled/output.asm', 'rb'))
+    response['Content-Disposition'] = 'attachment; filename="output.asm"'
+    response['Content-Type'] = 'text/plain'
+    return response

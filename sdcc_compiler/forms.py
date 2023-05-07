@@ -13,7 +13,6 @@ class AddDirectoryForm(forms.ModelForm):
 
 
 class AddFileForm(forms.ModelForm):
-
     class Meta:
         model = File
         exclude = ['directory', 'owner', 'is_accessible', 'creation_date', 'access_change', 'last_modification']

@@ -14,19 +14,6 @@ li {
     color: var(--font-secondary);
 }
 
-/*li:hover {*/
-/*    color: var(--bg-item);*/
-/*    font-weight: bold;*/
-/*}*/
-
-/*.nested-document {*/
-/*    text-indent: -0.9rem;*/
-/*}*/
-
-/*.nested-document:target {*/
-/*    display: block;*/
-/*}*/
-
 .list-group-item {
     border: none;
     background-color: transparent;

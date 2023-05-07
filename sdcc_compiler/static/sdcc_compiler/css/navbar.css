@@ -51,30 +51,36 @@
     display: none;
 }
 
-#mobile-menu {
-    background-color: var(--bg-grid-primary);
-    text-align: center;
-    display: none;
-}
-
+/*#mobile-menu {*/
+/*    background-color: var(--bg-grid-primary);*/
+/*    text-align: center;*/
+/*    display: none;*/
+/*}*/
 
 @media only screen and (max-width: 600px) {
     #navbar-wrapper {
         grid-column: auto;
         grid-row: 1/2;
+        min-height: 3em;
     }
 
-    /* Disappears when media condition is not fulfilled. */
-    /* Even if it is still the target. */
-    #mobile-menu:target {
-        display: block;
+    #navbar {
+        align-items: center;
+        min-height: 3em;
     }
 
     #menu {
         display: none;
     }
 
+    #menu.show {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+    }
+
     #burger {
-        display: block
+        display: block;
+        cursor: pointer;
     }
 }

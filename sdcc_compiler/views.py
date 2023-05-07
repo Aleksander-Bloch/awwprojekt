@@ -114,9 +114,37 @@ def compile_file(request):
 
 
 def download_asm(request):
-    if not request.session.get('editor_file_id', None):
+    if not request.session.get('asm_sections', None):
         return redirect('index')
     response = FileResponse(open('media/compiled/output.asm', 'rb'))
     response['Content-Disposition'] = 'attachment; filename="output.asm"'
     response['Content-Type'] = 'text/plain'
     return response
+
+
+# Server-side implementation of manual sectioning of the c file.
+def create_new_section(request):
+    if not request.session.get('editor_file_id', None):
+        return redirect('index')
+    file_to_compile = File.objects.get(pk=request.session['editor_file_id'])
+    start_line = request.POST.get('start_line')
+    end_line = request.POST.get('end_line')
+    section_type = request.POST.get('section_type')
+    section = file_to_compile.sections.create(start_line=start_line, end_line=end_line, type=section_type)
+    section.save()
+    return redirect('index')
+
+
+def merge_two_sections_into_one(request):
+    if not request.session.get('editor_file_id', None):
+        return redirect('index')
+    file_to_compile = File.objects.get(pk=request.session['editor_file_id'])
+    first_section_id = request.POST.get('first_section_id')
+    second_section_id = request.POST.get('second_section_id')
+    first_section = file_to_compile.sections.get(pk=first_section_id)
+    second_section = file_to_compile.sections.get(pk=second_section_id)
+    first_section.end_line = second_section.end_line
+    first_section.content += second_section.content
+    first_section.save()
+    second_section.delete()
+    return redirect('index')

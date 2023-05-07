@@ -1,9 +1,7 @@
-{# TODO: Change style of offcanvas in separate .css file #}
-<div style="background-color: black" class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSections"
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSections"
      aria-labelledby="offcanvasSectionsLabel">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasSectionsLabel">Offcanvas</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <h5 class="offcanvas-title" id="offcanvasSectionsLabel">CFile Sections</h5>
     </div>
     <div class="offcanvas-body">
         <ol class="list-group list-group-numbered">
@@ -13,7 +11,7 @@
                         <div class="fw-bold">{{ section.type }}</div>
                         Lines: {{ section.start }} - {{ section.end }}
                     </div>
-                    <span class="badge bg-primary rounded-pill">{{ section.status }}</span>
+                    <span class="badge bg-success rounded-pill">{{ section.status }}</span>
                 </li>
             {% endfor %}
         </ol>

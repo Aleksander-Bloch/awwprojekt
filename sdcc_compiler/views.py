@@ -1,6 +1,6 @@
 import subprocess
 
-from django.http import FileResponse
+from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
@@ -31,18 +31,19 @@ class IndexView(TemplateView):
 
 
 def add_directory(request):
-    if request.method == 'POST':
-        form = AddDirectoryForm(request.POST)
-        if form.is_valid():
-            new_directory = form.save(commit=False)
-            parent_id = form.cleaned_data['parent']
-            try:
-                parent = Directory.objects.get(id=parent_id)
-            except Directory.DoesNotExist:
-                parent = None
-            new_directory.parent = parent
-            new_directory.save()
-    return redirect('index')
+    form = AddDirectoryForm(request.POST)
+    if form.is_valid():
+        new_directory = form.save(commit=False)
+        parent_id = form.cleaned_data['parent']
+        try:
+            parent = Directory.objects.get(id=parent_id)
+        except Directory.DoesNotExist:
+            parent = None
+        new_directory.parent = parent
+        new_directory.save()
+        return JsonResponse({'directory_id': new_directory.id})
+    else:
+        return JsonResponse({'error': 'Invalid form'})
 
 
 def add_file(request):

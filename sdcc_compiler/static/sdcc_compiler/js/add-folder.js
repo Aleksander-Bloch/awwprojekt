@@ -1,5 +1,4 @@
 const addDirForm = document.querySelector('#add-dir-form');
-const fileExplorer = document.querySelector('#file-explorer');
 const closeAddDirModalBtn = document.querySelector('#close-add-dir-modal-btn');
 addDirForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -13,7 +12,6 @@ addDirForm.addEventListener('submit', (e) => {
     })
         .then((response) => response.json())
         .then((data) => {
-            console.log('Success:', data);
             const newDir = $(
                 `<ul class="list-group">
                     <li class="list-group-item">
@@ -29,7 +27,10 @@ addDirForm.addEventListener('submit', (e) => {
             } else {
                 $(fileExplorer).append(newDir); // root directory
             }
+            const newDirSpan = newDir.find('span.dir-item');
+            newDirSpan.click(() => {selectItem(newDirSpan[0])});
             closeAddDirModalBtn.click();
+            addDirForm.reset();
         })
         .catch((error) => {
             console.error('Error:', error);

@@ -1,24 +1,3 @@
-let selectedItem = null;
-let selectedItemId = null;
-let selectedItemName = null;
-const items = document.querySelectorAll('.dir-item, .file-item');
-items.forEach((item) => {
-    item.addEventListener('click', () => {
-        if (selectedItem !== null) {
-            selectedItem.classList.remove('selected-item');
-        }
-        if (item === selectedItem) {
-            selectedItem = selectedItemId = selectedItemName = null;
-            return;
-        }
-        item.classList.add('selected-item');
-        selectedItem = item;
-        selectedItemId = item.dataset.id;
-        selectedItemName = item.innerText;
-        console.log(selectedItemId);
-    });
-});
-
 function prepareAddModal(info, input, submit, target_str) {
     submit.disabled = false;
     info.classList.remove('text-danger');

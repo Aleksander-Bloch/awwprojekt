@@ -1,6 +1,6 @@
 import subprocess
 
-from django.http import FileResponse, JsonResponse
+from django.http import FileResponse, JsonResponse, Http404
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
@@ -47,19 +47,20 @@ def add_directory(request):
 
 
 def add_file(request):
-    if request.method == 'POST':
-        form = AddFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            new_file = form.save(commit=False)
-            directory_id = form.cleaned_data['directory']
-            try:
-                directory = Directory.objects.get(id=directory_id)
-            except Directory.DoesNotExist:
-                directory = None
-            new_file.directory = directory
-            new_file.save()
-            cfile_sections.create_sections(new_file)
-    return redirect('index')
+    form = AddFileForm(request.POST, request.FILES)
+    if form.is_valid():
+        new_file = form.save(commit=False)
+        directory_id = form.cleaned_data['directory']
+        try:
+            directory = Directory.objects.get(id=directory_id)
+        except Directory.DoesNotExist:
+            directory = None
+        new_file.directory = directory
+        new_file.save()
+        cfile_sections.create_sections(new_file)
+        return JsonResponse({'file_id': new_file.id})
+    else:
+        return JsonResponse({'error': 'Invalid form'})
 
 
 def view_file(request, file_id):
@@ -82,14 +83,14 @@ def delete_directory(request, directory_id):
     directory_to_delete = Directory.objects.get(pk=directory_id)
     directory_to_delete.is_accessible = False
     directory_to_delete.save()
-    return redirect('index')
+    return JsonResponse({'deleted_dir_id': directory_to_delete.id})
 
 
 def delete_file(request, file_id):
     file_to_delete = File.objects.get(pk=file_id)
     file_to_delete.is_accessible = False
     file_to_delete.save()
-    return redirect('index')
+    return JsonResponse({'deleted_file_id': file_to_delete.id})
 
 
 def compile_file(request):
@@ -115,12 +116,13 @@ def compile_file(request):
 
 
 def download_asm(request):
-    if not request.session.get('asm_sections', None):
-        return redirect('index')
-    response = FileResponse(open('media/compiled/output.asm', 'rb'))
-    response['Content-Disposition'] = 'attachment; filename="output.asm"'
-    response['Content-Type'] = 'text/plain'
-    return response
+    if request.session.get('asm_sections', None):
+        response = FileResponse(open('media/compiled/output.asm', 'rb'))
+        response['Content-Disposition'] = 'attachment; filename="output.asm"'
+        response['Content-Type'] = 'text/plain'
+        return response
+    else:
+        raise Http404
 
 
 # Server-side implementation of manual sectioning of the c file.

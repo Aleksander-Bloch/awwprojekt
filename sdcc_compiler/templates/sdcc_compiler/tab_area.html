@@ -13,7 +13,7 @@
     </a>
 </div>
 <div id="tab-options">
-    <form id="compilation-form" method="post" action="{% url 'compile_file' %}">
+    <form id="compilation-form" method="post">
         {% csrf_token %}
         <fieldset id="standard">
             <legend>Select C standard:</legend>

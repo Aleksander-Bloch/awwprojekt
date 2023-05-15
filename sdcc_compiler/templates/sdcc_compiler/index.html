@@ -19,10 +19,6 @@
     {#  jQuery  #}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-    {#  Ace editor  #}
-    <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.15.3/src-min-noconflict/ace.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ace-builds@1.15.3/css/ace.min.css">
-
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'sdcc_compiler/css/app.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'sdcc_compiler/css/navbar.css' %}">
@@ -39,10 +35,11 @@
     <script src="{% static 'sdcc_compiler/js/add-folder.js' %}" defer></script>
     <script src="{% static 'sdcc_compiler/js/add-file.js' %}" defer></script>
     <script src="{% static 'sdcc_compiler/js/delete-item.js' %}" defer></script>
+    <script src="{% static 'sdcc_compiler/js/theme.js' %}" defer></script>
+    <script src="{% static 'sdcc_compiler/js/compile-file.js' %}" defer></script>
 
 </head>
 <body>
-
 <div id="app">
     <div id="navbar-wrapper">
         {% include "sdcc_compiler/navbar.html" %}
@@ -53,46 +50,11 @@
         {% include "sdcc_compiler/root_files.html" %}
     </div>
 
-    <div id="program-viewer"></div>
+    <pre id="program-viewer"></pre>
 
-    <pre id="fragment-viewer">{% for section in asm_sections %}{% if section.is_header %}<div class="asm-header">{{ section.content }}</div>{% else %}<div class="asm-body">{{ section.content }}</div>{% endif %}{% endfor %}</pre>
+    <pre id="fragment-viewer"></pre>
 
     {% include "sdcc_compiler/tab_area.html" %}
 </div>
-<script>
-    const fileContent = `{{ file_content | safe }}`;
-
-    const programViewer = ace.edit("program-viewer");
-    programViewer.setTheme("ace/theme/monokai");
-    programViewer.getSession().setMode("ace/mode/c_cpp");
-    programViewer.setOptions({
-        fontSize: "14pt"
-    });
-    programViewer.setValue(fileContent, 1);
-
-    const theme_icon = document.getElementById("theme-icon");
-    const current_theme = localStorage.getItem("theme");
-
-    if (current_theme === "light") {
-        theme_icon.className = "fa-regular fa-moon";
-        document.body.classList.toggle("light-theme");
-        programViewer.setTheme("ace/theme/light");
-    }
-
-    theme_icon.onclick = function () {
-        document.body.classList.toggle("light-theme");
-        if (document.body.classList.contains("light-theme")) {
-            localStorage.setItem("theme", "light");
-            theme_icon.className = "fa-regular fa-moon";
-            programViewer.setTheme("ace/theme/light");
-            window.location.reload();
-        } else {
-            localStorage.setItem("theme", "dark");
-            theme_icon.className = "fa-regular fa-sun";
-            programViewer.setTheme("ace/theme/monokai");
-            window.location.reload();
-        }
-    }
-</script>
 </body>
 </html>

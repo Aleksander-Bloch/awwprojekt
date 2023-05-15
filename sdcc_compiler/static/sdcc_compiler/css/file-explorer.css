@@ -23,6 +23,7 @@ li {
 
 .dir-item, .file-item {
     cursor: pointer;
+    user-select: none;
 }
 
 .dir-item:hover, .file-item:hover {

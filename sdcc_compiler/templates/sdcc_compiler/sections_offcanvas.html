@@ -4,16 +4,6 @@
         <h5 class="offcanvas-title" id="offcanvasSectionsLabel">CFile Sections</h5>
     </div>
     <div class="offcanvas-body">
-        <ol class="list-group list-group-numbered">
-            {% for section in sections %}
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
-                        <div class="fw-bold">{{ section.type }}</div>
-                        Lines: {{ section.start }} - {{ section.end }}
-                    </div>
-                    <span class="badge bg-success rounded-pill">{{ section.status }}</span>
-                </li>
-            {% endfor %}
-        </ol>
+        <ol id="section-list" class="list-group list-group-numbered"></ol>
     </div>
 </div>

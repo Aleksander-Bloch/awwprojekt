@@ -29,10 +29,11 @@ addFileForm.addEventListener('submit', (e) => {
                 $(fileExplorer).append(newFile); // root directory
             }
             const newFileSpan = newFile.find('span.file-item');
-            newFileSpan.click(() => {selectItem(newFileSpan[0])});
+            newFileSpan.click(() => {
+                selectItem(newFileSpan[0])
+            });
             newFileSpan.dblclick(() => {
-                const file_id = newFileSpan.data('id');
-                window.location.href = '/sdcc_compiler/view_file/' + file_id;
+                viewFile(newFileSpan[0]);
             });
             closeAddFileModalBtn.click();
             addFileForm.reset();

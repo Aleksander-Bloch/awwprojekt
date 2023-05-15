@@ -8,6 +8,14 @@ function updateAsmSections(asmSections) {
             `<div class="${sectionClass}">${section['content']}</div>`
         );
         $(fragmentViewer).append(newSection);
+        if (!section['is_header']) {
+            const header = newSection[0].previousElementSibling;
+            if (header !== null) {
+                $(header).click(() => {
+                    $(newSection).toggle('smooth');
+                });
+            }
+        }
     });
 }
 

@@ -6,6 +6,10 @@
     height: 100%;
 }
 
+.asm-header {
+    cursor: pointer;
+}
+
 .asm-header:hover {
     background-color: var(--asm-header);
 }

@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 
 import sdcc_compiler.parsing.asm_sections as asm_sections
 import sdcc_compiler.parsing.cfile_sections as cfile_sections
-from .forms import AddDirectoryForm, AddFileForm
+from .forms import AddDirectoryForm, AddFileForm, AddSectionForm
 from .models import Directory, File
 
 
@@ -20,6 +20,7 @@ class IndexView(TemplateView):
         context['root_files'] = [{'name': f.name, 'id': f.id, 'is_accessible': f.is_accessible} for f in root_files]
         context['add_dir_form'] = AddDirectoryForm()
         context['add_file_form'] = AddFileForm()
+        context['add_section_form'] = AddSectionForm()
         return context
 
 
@@ -63,7 +64,7 @@ def view_file(request, file_id):
 
     sections = file_to_view.sections.all()
     section_dicts = [
-        {'type': s.type, 'start': s.start_line, 'end': s.end_line, 'status': s.status}
+        {'type': s.type, 'start': s.start_line, 'end': s.end_line}
         for s in sections
     ]
     data = {'file_content': file_content, 'sections': section_dicts}
@@ -120,3 +121,19 @@ def download_asm(request):
     response['Content-Disposition'] = 'attachment; filename="output.asm"'
     response['Content-Type'] = 'text/plain'
     return response
+
+
+def add_section(request):
+    form = AddSectionForm(request.POST)
+    if form.is_valid():
+        new_section = form.save(commit=False)
+        file_id = form.cleaned_data['file']
+        try:
+            file = File.objects.get(id=file_id)
+        except File.DoesNotExist:
+            file = None
+        new_section.file = file
+        new_section.save()
+        return JsonResponse({'type': new_section.type, 'start': new_section.start_line, 'end': new_section.end_line})
+    else:
+        return JsonResponse({'error': 'Invalid form'})

@@ -15,7 +15,6 @@ function updateCFileSections(sections) {
                     <div class="fw-bold">${section['type']}</div>
                     Lines: ${section['start']} - ${section['end']}
                 </div>
-                <span class="badge bg-success rounded-pill">${section['status']}</span>
             </li>`
         );
         $(sectionList).append(newSection);

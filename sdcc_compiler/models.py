@@ -83,4 +83,4 @@ class Section(models.Model):
     parent = models.ForeignKey('self', null=True, blank=True, related_name='sections', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.type} [{self.start_line}-{self.end_line}]"
+        return f"{self.file.name}: {self.type} [{self.start_line}-{self.end_line}]"

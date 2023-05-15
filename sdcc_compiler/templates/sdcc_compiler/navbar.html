@@ -29,9 +29,8 @@
                             aria-controls="offcanvasSections">View
                     </button>
                 </li>
-                {# Not fully functional with accordance to the problem statement #}
-                <li><a class="dropdown-item" href="#">Add</a></li>
-                <li><a class="dropdown-item" href="#">Merge</a></li>
+                <li><a class="dropdown-item" id="add-section-modal-trigger" href="#" data-bs-toggle="modal"
+                       data-bs-target="#addSectionModal">Add</a></li>
             </ul>
         </div>
         <button type="button" id="delete-modal-trigger" class="btn menu-item" data-bs-toggle="modal"
@@ -49,6 +48,8 @@
 {% include "sdcc_compiler/add_dir_modal.html" %}
 
 {% include "sdcc_compiler/add_file_modal.html" %}
+
+{% include "sdcc_compiler/add_section_modal.html" %}
 
 {% include "sdcc_compiler/delete_modal.html" %}
 

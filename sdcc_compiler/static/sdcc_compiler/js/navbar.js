@@ -60,4 +60,34 @@ deleteModalTrigger.addEventListener('click', () => {
     prepareDeleteModal(deleteInfo, deleteAnchor, deleteBtn);
 });
 
+const addSectionModalTrigger = document.querySelector('#add-section-modal-trigger');
+const addSectionInfo = document.querySelector('#add-section-info');
+const addSectionSubmitBtn = document.querySelector('#add-section-submit-btn');
+const startLineInput = document.querySelector('#add-section-form #id_start_line');
+const endLineInput = document.querySelector('#add-section-form #id_end_line');
+const contentInput = document.querySelector('#add-section-form #id_content');
+const fileInput = document.querySelector('#add-section-form #id_file');
+
+addSectionModalTrigger.addEventListener('click', () => {
+    addSectionSubmitBtn.disabled = false;
+    addSectionInfo.classList.remove('text-danger');
+
+    const selection = window.getSelection();
+    const selectedText = selection.toString();
+    if (selectedText.length === 0) {
+        addSectionInfo.innerText = `Please highlight text in the program viewer.`;
+        addSectionSubmitBtn.disabled = true;
+        addSectionInfo.classList.add('text-danger');
+    } else {
+        const selectedRange = selection.getRangeAt(0);
+        const startingLine = selectedRange.startContainer.parentElement.dataset.line;
+        const endingLine = selectedRange.endContainer.parentElement.dataset.line;
+        addSectionInfo.innerText = `Adding section from line ${startingLine} to line ${endingLine}.`;
+        startLineInput.value = startingLine;
+        endLineInput.value = endingLine;
+        contentInput.value = selectedText;
+        fileInput.value = editorFileId;
+    }
+});
+
 

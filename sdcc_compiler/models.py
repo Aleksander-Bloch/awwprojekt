@@ -1,22 +1,14 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
-
-
-class User(models.Model):
-    name = models.CharField(max_length=50)
-    login = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
 
 
 class Directory(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(null=True, blank=True)
     creation_date = models.DateTimeField(default=now)
-    owner = models.ForeignKey('User', null=True, blank=True, related_name='directories', on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, related_name='directories', on_delete=models.CASCADE)
     is_accessible = models.BooleanField(default=True)
     access_change = models.DateTimeField(default=now)
     last_modification = models.DateTimeField(default=now)
@@ -39,7 +31,7 @@ class File(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(null=True, blank=True)
     creation_date = models.DateTimeField(default=now)
-    owner = models.ForeignKey('User', null=True, blank=True, related_name='files', on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, related_name='files', on_delete=models.CASCADE)
     is_accessible = models.BooleanField(default=True)
     access_change = models.DateTimeField(default=now)
     last_modification = models.DateTimeField(default=now)

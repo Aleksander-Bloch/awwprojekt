@@ -41,7 +41,8 @@
                 data-bs-target="#deleteModal">Delete
         </button>
         <button type="submit" form="compilation-form" class="btn menu-item">Compile</button>
-        <a href="{% url 'download_asm' %}" class="menu-item">Download</a>
+        <a id="download-btn" href="{% url 'download_asm' %}" class="menu-item">Download</a>
+        <a id="logout-btn" href="{% url 'logout' %}" class="menu-item">Log out</a>
     </div>
     <div id="theme-selector">
         <i class="fa-regular fa-sun" id="theme-icon"></i>

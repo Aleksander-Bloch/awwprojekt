@@ -21,3 +21,7 @@ urlpatterns = [
     path('sdcc_compiler/', include('sdcc_compiler.urls')),
     path('admin/', admin.site.urls),
 ]
+
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
+]

@@ -1,5 +1,7 @@
 import subprocess
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, JsonResponse
 from django.views.generic import TemplateView
 
@@ -9,12 +11,12 @@ from .forms import AddDirectoryForm, AddFileForm, AddSectionForm
 from .models import Directory, File
 
 
-class IndexView(TemplateView):
+class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'sdcc_compiler/index.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        root_directories = Directory.objects.filter(parent__isnull=True)
+        root_directories = Directory.objects.filter(parent__isnull=True, owner=self.request.user)
         context['file_tree'] = [root.get_tree() for root in root_directories]
         root_files = File.objects.filter(directory__isnull=True)
         context['root_files'] = [{'name': f.name, 'id': f.id, 'is_accessible': f.is_accessible} for f in root_files]
@@ -24,6 +26,7 @@ class IndexView(TemplateView):
         return context
 
 
+@login_required
 def add_directory(request):
     form = AddDirectoryForm(request.POST)
     if form.is_valid():
@@ -34,12 +37,14 @@ def add_directory(request):
         except Directory.DoesNotExist:
             parent = None
         new_directory.parent = parent
+        new_directory.owner = request.user
         new_directory.save()
         return JsonResponse({'directory_id': new_directory.id})
     else:
         return JsonResponse({'error': 'Invalid form'})
 
 
+@login_required
 def add_file(request):
     form = AddFileForm(request.POST, request.FILES)
     if form.is_valid():
@@ -50,6 +55,7 @@ def add_file(request):
         except Directory.DoesNotExist:
             directory = None
         new_file.directory = directory
+        new_file.owner = request.user
         new_file.save()
         cfile_sections.create_sections(new_file)
         return JsonResponse({'file_id': new_file.id})
@@ -57,6 +63,7 @@ def add_file(request):
         return JsonResponse({'error': 'Invalid form'})
 
 
+@login_required
 def view_file(request, file_id):
     file_to_view = File.objects.get(pk=file_id)
     with open(file_to_view.file.path, 'r') as f:
@@ -71,6 +78,7 @@ def view_file(request, file_id):
     return JsonResponse(data)
 
 
+@login_required
 def delete_directory(request, directory_id):
     directory_to_delete = Directory.objects.get(pk=directory_id)
     directory_to_delete.is_accessible = False
@@ -78,6 +86,7 @@ def delete_directory(request, directory_id):
     return JsonResponse({'deleted_dir_id': directory_to_delete.id})
 
 
+@login_required
 def delete_file(request, file_id):
     file_to_delete = File.objects.get(pk=file_id)
     file_to_delete.is_accessible = False
@@ -85,6 +94,7 @@ def delete_file(request, file_id):
     return JsonResponse({'deleted_file_id': file_to_delete.id})
 
 
+@login_required
 def compile_file(request, file_id):
     standard = request.POST.get('standard_choice')
     optimizations = request.POST.getlist('optimization_choice', [])
@@ -116,6 +126,7 @@ def compile_file(request, file_id):
     return JsonResponse(data)
 
 
+@login_required
 def download_asm(request):
     response = FileResponse(open('media/compiled/output.asm', 'rb'))
     response['Content-Disposition'] = 'attachment; filename="output.asm"'
@@ -123,6 +134,7 @@ def download_asm(request):
     return response
 
 
+@login_required
 def add_section(request):
     form = AddSectionForm(request.POST)
     if form.is_valid():

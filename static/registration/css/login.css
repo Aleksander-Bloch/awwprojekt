@@ -1,0 +1,26 @@
+html, body {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#login-header {
+    font-weight: bold;
+}
+
+#login-submit-btn {
+    margin-top: 1.5em;
+    font-weight: bold;
+    background-image: linear-gradient(to left, #b570ff, #5e2d91);
+    border: #b570ff;
+}
+
+#login-section {
+    background-image: radial-gradient(circle, #b570ff, #5e2d91);
+}
+
+#login-card {
+    border-radius: 1rem;
+}
+
+.login-labels {
+    display: none;
+}

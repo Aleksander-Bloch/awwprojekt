@@ -18,7 +18,7 @@ class IndexView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         root_directories = Directory.objects.filter(parent__isnull=True, owner=self.request.user)
         context['file_tree'] = [root.get_tree() for root in root_directories]
-        root_files = File.objects.filter(directory__isnull=True)
+        root_files = File.objects.filter(directory__isnull=True, owner=self.request.user)
         context['root_files'] = [{'name': f.name, 'id': f.id, 'is_accessible': f.is_accessible} for f in root_files]
         context['add_dir_form'] = AddDirectoryForm()
         context['add_file_form'] = AddFileForm()

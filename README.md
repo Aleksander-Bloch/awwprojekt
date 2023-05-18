@@ -1,5 +1,19 @@
 # Quickstart
 
+## Admin info
+
+Superuser
+- username: alek
+- password: alek
+
+User 1
+- username: ironman
+- password: tonystark
+
+User 2
+- username: hulk
+- password: brucebanner
+
 ## User actions
 
 1. Click on a file / directory to select it

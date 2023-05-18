@@ -44,7 +44,7 @@ function createProgramLines(fileContent) {
             `<div class="program-line" data-line="${lineNo + 1}"></div>`
         );
         if (fileContentLines[lineNo] === '') {
-            programLine.text('\n');
+            programLine.text(' \n');
         } else {
             programLine.text(fileContentLines[lineNo]);
         }

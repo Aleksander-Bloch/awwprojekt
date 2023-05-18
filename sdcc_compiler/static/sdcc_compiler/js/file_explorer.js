@@ -9,10 +9,11 @@ const sectionList = document.querySelector('#section-list');
 
 function updateCFileSections(sections) {
     sections.forEach((section) => {
+        const name = section['name'] !== null ? section['name'] : '';
         const newSection = $(
             `<li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
-                    <div class="fw-bold">${section['type']}</div>
+                    <div class="fw-bold">${section['type']} ${name}</div>
                     Lines: ${section['start']} - ${section['end']}
                 </div>
             </li>`

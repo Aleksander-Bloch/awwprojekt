@@ -19,7 +19,7 @@ class Directory(models.Model):
         if self.children.exists():
             tree['children'] = [child.get_tree() for child in self.children.all()]
         if self.files.exists():
-            tree['files'] = [{'name': f.name, 'id': f.id, 'is_accessible': self.is_accessible}
+            tree['files'] = [{'name': f.name, 'id': f.id, 'is_accessible': f.is_accessible}
                              for f in self.files.all()]
         return tree
 

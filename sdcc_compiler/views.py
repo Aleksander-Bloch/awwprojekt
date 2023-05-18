@@ -71,7 +71,7 @@ def view_file(request, file_id):
 
     sections = file_to_view.sections.all()
     section_dicts = [
-        {'type': s.type, 'start': s.start_line, 'end': s.end_line}
+        {'name': s.name, 'type': s.type, 'start': s.start_line, 'end': s.end_line}
         for s in sections
     ]
     data = {'file_content': file_content, 'sections': section_dicts}
@@ -118,6 +118,9 @@ def compile_file(request, file_id):
             split_line = line.split('/')
             error_message = split_line[-1]
             line_number = error_message.split(':')[1]
+            if not line_number.isnumeric():
+                error_message = '/'.join(split_line[-2:])
+                line_number = error_message.split(':')[1]
             error_dicts.append({'error_message': error_message, 'line_number': line_number})
         data = {'errors': error_dicts}
     else:
@@ -146,6 +149,7 @@ def add_section(request):
             file = None
         new_section.file = file
         new_section.save()
-        return JsonResponse({'type': new_section.type, 'start': new_section.start_line, 'end': new_section.end_line})
+        return JsonResponse({'name': new_section.name, 'type': new_section.type, 'start': new_section.start_line,
+                             'end': new_section.end_line})
     else:
         return JsonResponse({'error': 'Invalid form'})

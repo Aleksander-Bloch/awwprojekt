@@ -95,4 +95,17 @@ logoutBtn.addEventListener('click', () => {
     localStorage.clear();
 });
 
+const toastTrigger = document.getElementById('liveToastBtn');
+const toastLiveInfo = document.getElementById('liveToast');
+const toastHeader = toastLiveInfo.querySelector('.toast-header');
+const toastBody = toastLiveInfo.querySelector('.toast-body');
+const toastSrc = toastLiveInfo.querySelector('#toastSrc');
+
+if (toastTrigger) {
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveInfo, {delay: 3000})
+    toastTrigger.addEventListener('click', () => {
+        toastBootstrap.show();
+    })
+}
+
 

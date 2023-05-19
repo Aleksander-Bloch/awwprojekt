@@ -1,0 +1,8 @@
+.toast-header {
+    color: var(--font-primary);
+}
+
+.toast-body {
+    color: var(--font-primary);
+    background-color: var(--bg-grid-tertiary);
+}

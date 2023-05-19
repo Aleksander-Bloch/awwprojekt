@@ -15,6 +15,12 @@ addSectionForm.addEventListener('submit', (e) => {
             sections.push(data);
             localStorage.setItem('sections', JSON.stringify(sections));
             closeAddSectionModalBtn.click();
+            $(toastSrc).text('Add section');
+            toastHeader.classList.remove('bg-danger');
+            toastHeader.classList.remove('bg-success');
+            toastHeader.classList.add('bg-primary');
+            $(toastBody).text(`Check out your new section in "Sections/View list".`);
+            toastTrigger.click();
         })
         .catch((error) => {
             console.error('Error:', error);

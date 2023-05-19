@@ -71,7 +71,7 @@ def view_file(request, file_id):
 
     sections = file_to_view.sections.all()
     section_dicts = [
-        {'name': s.name, 'type': s.type, 'start': s.start_line, 'end': s.end_line}
+        {'name': s.name, 'type': s.type, 'start': s.start_line, 'end': s.end_line, 'content': s.content}
         for s in sections
     ]
     data = {'file_content': file_content, 'sections': section_dicts}
@@ -150,6 +150,6 @@ def add_section(request):
         new_section.file = file
         new_section.save()
         return JsonResponse({'name': new_section.name, 'type': new_section.type, 'start': new_section.start_line,
-                             'end': new_section.end_line})
+                             'end': new_section.end_line, 'content': new_section.content})
     else:
         return JsonResponse({'error': 'Invalid form'})

@@ -2,3 +2,14 @@
     background-color: var(--bg-grid-primary);
     color: var(--font-primary);
 }
+
+#cfile-section-content {
+    font-size: 0.75em;
+    font-style: italic;
+    margin-top: 1em;
+    color: var(--bg-app);
+}
+
+#cfile-section-line-info {
+    font-size: 0.9em;
+}

@@ -14,10 +14,12 @@ function updateCFileSections(sections) {
             `<li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
                     <div class="fw-bold">${section['type']} ${name}</div>
-                    Lines: ${section['start']} - ${section['end']}
+                    <div id="cfile-section-line-info">Lines: ${section['start']} - ${section['end']}</div>
+                    <pre id="cfile-section-content"></pre>
                 </div>
             </li>`
         );
+        newSection.find('pre').text(section['content']);
         $(sectionList).append(newSection);
     });
 }

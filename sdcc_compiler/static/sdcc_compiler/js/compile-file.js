@@ -52,16 +52,26 @@ compilationForm.addEventListener('submit', (e) => {
         .then((response) => response.json())
         .then((data) => {
             fragmentViewer.innerHTML = '';
+            $(toastSrc).text('Compile');
             if ('errors' in data) {
                 updateErrors(data['errors']);
                 localStorage.setItem('errors', JSON.stringify(data['errors']));
                 localStorage.removeItem('asm_sections');
+                toastHeader.classList.remove('bg-success');
+                toastHeader.classList.remove('bg-primary');
+                toastHeader.classList.add('bg-danger');
+                $(toastBody).text('Compilation failed');
             }
             else {
                 updateAsmSections(data['asm_sections']);
                 localStorage.setItem('asm_sections', JSON.stringify(data['asm_sections']));
                 localStorage.removeItem('errors');
+                toastHeader.classList.remove('bg-danger');
+                toastHeader.classList.remove('bg-primary');
+                toastHeader.classList.add('bg-success');
+                $(toastBody).text('Compilation successful');
             }
+            toastTrigger.click();
         })
         .catch((error) => {
             console.error('Error:', error);

@@ -28,6 +28,7 @@ def add_parent_fk(section_db_objects):
                 break
             if section_db_objects[j].start_line >= start_line and section_db_objects[j].end_line <= end_line:
                 section_db_objects[j].parent = section
+                section.save()
                 section_db_objects[j].save()
 
 

@@ -1,5 +1,34 @@
 # Quickstart
 
+## Usage
+
+To start the application, run the following command:
+
+```bash
+docker compose up --build
+```
+
+Then, go to http://localhost:8000/sdcc_compiler/ to view the application.
+
+## Cleanup
+
+```bash
+docker compose down
+docker volume rm awwprojekt_media awwprojekt_static
+```
+
+To remove images, first list them using:
+
+```bash
+docker images
+```
+
+Then, remove them using:
+
+```bash
+docker rmi <image_id>
+```
+
 ## Admin info
 
 Superuser
